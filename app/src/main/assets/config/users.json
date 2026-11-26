@@ -1,0 +1,7 @@
+{
+  "users": [
+    { "userId": "admin",     "password": "admin123", "displayName": "Administrator", "email": "admin@example.com",     "role": "ADMIN", "active": true },
+    { "userId": "operator1", "password": "op123",    "displayName": "Operator One",  "email": "operator1@example.com", "role": "USER",  "active": true },
+    { "userId": "operator2", "password": "op123",    "displayName": "Operator Two",  "email": "operator2@example.com", "role": "USER",  "active": true }
+  ]
+}

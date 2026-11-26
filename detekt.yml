@@ -1,0 +1,18 @@
+build:
+  maxIssues: 500
+
+complexity:
+  TooManyFunctions:
+    active: false
+  LargeClass:
+    active: false
+  LongMethod:
+    active: false
+
+style:
+  MagicNumber:
+    active: false
+  DataClassShouldBeImmutable:
+    active: false
+  WildcardImport:
+    active: false

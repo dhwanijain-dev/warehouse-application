@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 2,
+  "environment": "prod",
+  "api": {
+    "baseUrl": "https://your-server.example.com/",
+    "connectTimeoutSec": 15,
+    "readTimeoutSec": 30,
+    "writeTimeoutSec": 30,
+    "retryCount": 2,
+    "authHeaderName": "Authorization",
+    "authHeaderPrefix": "Bearer ",
+    "endpoints": {
+      "login":        { "method": "POST", "path": "api/v1/auth/login" },
+      "sendTxtEmail": { "method": "POST", "path": "api/v1/location/email" },
+      "profile":      { "method": "GET",  "path": "api/v1/users/me" }
+    },
+    "fieldMap": {
+      "login.request.username": "username",
+      "login.request.password": "password",
+      "login.response.userId":  "data.userId",
+      "login.response.email":   "data.email",
+      "login.response.token":   "data.token"
+    }
+  },
+  "providers": { "auth": "local", "email": "intent", "scanner": "datawedge" },
+  "session": { "timeoutMinutes": 0 },
+  "locationSetting": { "duplicateScanPolicy": "reject" },
+  "admin": { "pin": "1234" },
+  "smtp": {
+    "host": "smtp.example.com",
+    "port": 587,
+    "security": "starttls",
+    "senderAddress": "noreply@example.com",
+    "username": "",
+    "password": ""
+  },
+  "scanner": {
+    "dataWedgeIntentAction": "com.warehouse.scan.ACTION",
+    "profileName": "WarehouseScanProfile",
+    "debounceMs": 500,
+    "symbologies": ["code128", "code39", "ean13", "ean8", "upca", "qrcode", "microqr", "datamatrix"],
+    "feedbackSound": true,
+    "feedbackVibrate": true,
+    "qrPayload": {
+      "mode": "raw", "stripControlChars": true, "trim": true,
+      "regex": "^(?<batch>[A-Za-z0-9-]{3,30})$", "regexGroup": "batch",
+      "delimiter": "|", "delimiterIndex": 0, "jsonField": "batch",
+      "acceptedSymbologies": ["QRCODE", "MICROQR", "CODE128", "CODE39", "DATAMATRIX", "EAN13", "EAN8", "UPCA"],
+      "rejectUnknownSymbology": false
+    }
+  },
+  "txtFile": {
+    "encoding": "UTF-8",
+    "lineSeparator": "\n",
+    "headerLine": "Batch Number",
+    "writeHeader": true,
+    "fileNamePattern": "{rack}-{zone}-{setting}.txt",
+    "includeLocationLines": false
+  },
+  "email": {
+    "subjectTemplate": "Location Setting - {rack}-{zone}-{setting}",
+    "bodyTemplate": "User: {user}\nDate: {dateTime}\nLocation: {rack}-{zone}-{setting}\nBatches: {count}"
+  },
+  "verification": {
+    "caseSensitive": false,
+    "trimWhitespace": true,
+    "skipHeaderLineValues": ["Batch Number"],
+    "totalScannedMeansUnique": true,
+    "duplicatesInUploadedFile": "ignore"
+  },
+  "validation": {
+    "rackRegex": "^[A-Za-z0-9]+$",
+    "zoneRegex": "^[A-Za-z0-9]+$",
+    "settingRegex": "^[A-Za-z0-9]+$",
+    "batchRegex": "^[A-Za-z0-9-]{3,30}$"
+  },
+  "features": {
+    "manualEntry": true,
+    "exportVerificationResult": true,
+    "allowRuntimeConfigOverride": true,
+    "offlineLoginCache": false
+  }
+}
